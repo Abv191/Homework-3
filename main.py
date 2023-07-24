@@ -11,23 +11,33 @@ def input_error(func):
     return inner
 
 
+def parse_command(command):
+    try:
+        _, name, phone = command.split(' ')
+        return name, phone
+    except ValueError:
+        raise ValueError("Invalid input. Please enter a valid name and phone number separated by a space.")
+    except IndexError:
+        raise IndexError("Invalid input. Please enter a name.")
+
+
 @input_error
 def add_contact(command):
-    _, name, phone = command.split(' ')
+    name, phone = parse_command(command)
     contacts[name] = phone
     return "Contact added."
 
 
 @input_error
 def change_phone(command):
-    _, name, phone = command.split(' ')
+    name, phone = parse_command(command)
     contacts[name] = phone
     return "Phone number updated."
 
 
 @input_error
 def get_phone(command):
-    _, name = command.split(' ')
+    name, _ = parse_command(command)
     return contacts[name]
 
 
